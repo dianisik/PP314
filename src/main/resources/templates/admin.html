@@ -28,12 +28,22 @@
                 <td>email:</td>
                 <td><input name="email"/></td>
             </tr>
+            <tr>
 
+            <label>
+                <select size="3" name="role" id="roles" multiple="multiple">
+                    <option disabled>Roles:</option>
+                    <option value="ROLE_ADMIN">ADMIN</option>
+                    <option selected value="ROLE_USER">USER</option>
+                </select>
+            </label>
+            </tr>
             <tr>
                 <td><input type="submit" value="Добавить" /></td>
             </tr>
-
+            <th><button><a href="admin/users">Возврат к списку пользователя</a></button></th>
         </table>
+
     </form>
     <p><a href="/logout">Logout</a></p>
 

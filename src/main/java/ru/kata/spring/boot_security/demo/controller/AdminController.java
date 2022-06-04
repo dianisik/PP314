@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 @Controller
-@RequestMapping("/users")
 public class AdminController {
 
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "admin/users")
     public String listUsers(Model model) {
         model.addAttribute("allUsers", userRepository.findAll());
         return "users";

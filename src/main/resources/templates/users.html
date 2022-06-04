@@ -14,16 +14,18 @@
       <th>lastName</th>
       <th>email</th>
       <th></th>
-      <th><button><a href="/users/new">NEW</a></button></th>
+      <th><button><a href="/admin">NEW</a></button></th>
     </tr>
     <tr th:each="user:${allUsers}">
       <td th:text="${user.firstName}"></td>
       <td th:text="${user.lastName}"></td>
       <td th:text="${user.email}"></td>
+      <td th:text="${user.name}"></td>
       <td><button><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></button></td>
       <td><button><a th:href="@{/remove/{id}(id=${user.id})}">Delete</a></button></td>
     </tr>
   </table>
+  <p><a href="/logout">Logout</a></p>
 </div>
 </body>
 </html>
