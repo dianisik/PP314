@@ -40,14 +40,19 @@ public class AdminController {
         return "/edit";
     }
 
-    @PostMapping(value = "/userUpdate")
-    public String updateUser(@ModelAttribute User user , @RequestParam(value = "role") String[]roles, @PathVariable ("id") Long id) {
+    @PostMapping(value = "/admin")
+    public String updateUser(@ModelAttribute User user , @RequestParam(value = "role") String[]roles) {
         ArrayList<Role> roleArrayList = myUserDetailsService.getRoleCollectionToStringArray(roles);
         roleRepository.saveAll(roleArrayList);
         user.setRoles(roleArrayList);
         user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
         userRepository.saveAndFlush(user);
-        return "redirect:/users";
+        return "redirect:/admin/users";
+    }
+    @GetMapping(value = "/remove/{id}")
+    public String removeUser(@PathVariable long id) {
+        userRepository.deleteById (id);
+        return "redirect:/admin/users";
     }
 
 }
