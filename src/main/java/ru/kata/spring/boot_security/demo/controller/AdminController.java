@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
@@ -53,6 +55,19 @@ public class AdminController {
     public String removeUser(@PathVariable long id) {
         userRepository.deleteById (id);
         return "redirect:/admin/users";
+    }
+    @GetMapping ("/admin")
+    public String newUser(){
+        return "admin";
+    }
+    @PostMapping("/user")
+    public RedirectView create(@ModelAttribute User user, @RequestParam(value = "role") String[]roles, BindingResult errors, Model model) {
+        ArrayList<Role> roleArrayList = myUserDetailsService.getRoleCollectionToStringArray(roles);
+        roleRepository.saveAll(roleArrayList);
+        user.setRoles(roleArrayList);
+        user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
+        userRepository.save(user);
+        return new RedirectView("/admin");
     }
 
 }

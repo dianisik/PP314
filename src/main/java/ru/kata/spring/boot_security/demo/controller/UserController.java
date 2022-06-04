@@ -14,6 +14,7 @@ import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.MyUserDetailsService;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,20 +36,12 @@ public class UserController {
     MyUserDetailsService myUserDetailsService;
 
     @GetMapping
-    public String goHome(){
+    public String goHome(Principal principal, Model model){
+        User user = myUserDetailsService.findByUserName(principal.getName());
+        model.addAttribute("user", user);
         return "user-space";
     }
 
 
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')") //только пользователь с ролью админа может выполнять запросы
-    @PostMapping
-    public RedirectView create(@ModelAttribute User user, @RequestParam(value = "role") String[]roles, BindingResult errors, Model model) {
-        ArrayList<Role> roleArrayList = myUserDetailsService.getRoleCollectionToStringArray(roles);
-        roleRepository.saveAll(roleArrayList);
-        user.setRoles(roleArrayList);
-        user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
-        userRepository.save(user);
-        return new RedirectView("/admin");
-    }
 }

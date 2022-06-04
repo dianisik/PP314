@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import ru.kata.spring.boot_security.demo.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByName(String lastName);
+    User findByName(String name);
     User findUserById(Long id);
+
+
 }

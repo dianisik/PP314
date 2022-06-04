@@ -30,6 +30,9 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    public User findByUserName(String userName){
+        return userRepository.findByName(userName);    }
+
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String name)
