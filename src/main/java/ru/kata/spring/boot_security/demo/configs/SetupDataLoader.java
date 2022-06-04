@@ -49,7 +49,6 @@ public class SetupDataLoader implements
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setEmail("admin@server.com");
         admin.setRoles(Arrays.asList(adminRole));
-        admin.setEnabled(true);
         userRepository.save(admin);
 
         User user = new User();
@@ -59,9 +58,7 @@ public class SetupDataLoader implements
         user.setPassword(passwordEncoder.encode("user"));
         user.setEmail("user@server.com");
         user.setRoles(Arrays.asList(userRole));
-        user.setEnabled(true);
         userRepository.save(user);
-
         alreadySetup = true;
     }
 

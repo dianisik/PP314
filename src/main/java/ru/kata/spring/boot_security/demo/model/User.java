@@ -19,8 +19,6 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String password;
-    private boolean enabled;
-    private boolean tokenExpired;
 
     @ManyToMany
     @JoinTable(
@@ -95,25 +93,15 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isTokenExpired() {
-        return tokenExpired;
-    }
-
-    public void setTokenExpired(boolean tokenExpired) {
-        this.tokenExpired = tokenExpired;
-    }
 
     public Collection<Role> getRoles() {
         return roles;
@@ -138,19 +126,6 @@ public class User implements UserDetails {
 
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return enabled == user.enabled && tokenExpired == user.tokenExpired && Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, firstName, lastName, email, password, enabled, tokenExpired, roles);
-    }
-
-    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -159,8 +134,6 @@ public class User implements UserDetails {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", tokenExpired=" + tokenExpired +
                 ", roles=" + roles +
                 '}';
     }
