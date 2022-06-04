@@ -37,8 +37,10 @@ public class SetupDataLoader implements
         Iterable<User> users = userRepository.findAll();
         alreadySetup = users.iterator().hasNext(); //если пользователи уже есть, ничего делать не надо
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-        Role userRole = roleRepository.findByName("ROLE_USER");
+        Role adminRole = new Role ("ROLE_ADMIN");
+        Role userRole = new Role ("ROLE_USER");
+        roleRepository.save(adminRole);
+        roleRepository.save(userRole);
 
         User admin = new User();
         admin.setName("admin");
