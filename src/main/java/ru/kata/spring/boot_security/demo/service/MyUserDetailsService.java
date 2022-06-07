@@ -18,10 +18,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service("userDetailsService")
 @Transactional
@@ -30,6 +27,9 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     public User findByUserName(String userName){
         return userRepository.findByName(userName);    }
 
@@ -37,24 +37,27 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String name)
             throws UsernameNotFoundException {
+        return userRepository.findByName(name);
 
-        User user = userRepository.findByName(name);
+        /*User user = userRepository.findByName(name);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         Hibernate.initialize(user.getAuthorities());
 
-        return user;
+        return user;*/
 
         }
-    public ArrayList<Role> getRoleCollectionToStringArray(String[] roles) {
+    public Set<Role> getRoles (ArrayList<Long> roles) {
         ArrayList<Role> roleArray = new ArrayList<>();
-        for (String role :
+        Set<Role> roleSet = Collections.emptySet();
+        for (Long roleStr :
                 roles) {
+            Optional<Role> roleOptional = roleRepository.findById(roleStr);
+            roleOptional.ifPresent(role -> {roleSet.add(role);});
 
-            roleArray.add(new Role(role));
         }
-        return roleArray;
+        return roleSet;
     }
 
 }

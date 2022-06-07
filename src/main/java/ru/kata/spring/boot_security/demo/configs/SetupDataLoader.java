@@ -11,13 +11,12 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Component
-public class SetupDataLoader implements
-        ApplicationListener<ContextRefreshedEvent> {
+public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
+    private final static long ROLE_ADMIN = 0;
+    private final static long ROLE_USER = 1;
 
     boolean alreadySetup = false;
 
@@ -37,8 +36,12 @@ public class SetupDataLoader implements
         Iterable<User> users = userRepository.findAll();
         alreadySetup = users.iterator().hasNext(); //если пользователи уже есть, ничего делать не надо
 
-        Role adminRole = new Role ("ROLE_ADMIN");
-        Role userRole = new Role ("ROLE_USER");
+        Role adminRole = new Role (ROLE_ADMIN, "Администратор");
+        Role userRole = new Role (ROLE_USER, "Пользователь");
+        Set<Role> adminRoles = Collections.emptySet();
+        adminRoles.add(adminRole);
+        Set<Role> userRoles = Collections.emptySet();
+        userRoles.add(userRole);
         roleRepository.save(adminRole);
         roleRepository.save(userRole);
 
@@ -48,7 +51,7 @@ public class SetupDataLoader implements
         admin.setLastName("Admin");
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setEmail("admin@server.com");
-        admin.setRoles(Arrays.asList(adminRole));
+        admin.setRoles(adminRoles);
         userRepository.save(admin);
 
         User user = new User();
@@ -57,7 +60,7 @@ public class SetupDataLoader implements
         user.setLastName("User");
         user.setPassword(passwordEncoder.encode("user"));
         user.setEmail("user@server.com");
-        user.setRoles(Arrays.asList(userRole));
+        user.setRoles(userRoles);
         userRepository.save(user);
         alreadySetup = true;
     }

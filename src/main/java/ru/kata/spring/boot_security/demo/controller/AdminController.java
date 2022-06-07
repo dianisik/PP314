@@ -15,21 +15,25 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.MyUserDetailsService;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 @Controller
 public class AdminController {
 
-    @Autowired
-    UserRepository userRepository;
+     private UserRepository userRepository;
 
-    @Autowired
-    MyUserDetailsService myUserDetailsService;
+     private MyUserDetailsService myUserDetailsService;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+     private PasswordEncoder passwordEncoder;
 
+     private RoleRepository roleRepository;
     @Autowired
-    RoleRepository roleRepository;
+    AdminController(UserRepository userRepository,  MyUserDetailsService myUserDetailsService, PasswordEncoder passwordEncoder, RoleRepository roleRepository ) {
+        this.userRepository = userRepository;
+        this.myUserDetailsService = myUserDetailsService;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+    }
 
     @GetMapping(value = "admin/users")
     public String listUsers(Model model) {
@@ -43,8 +47,8 @@ public class AdminController {
     }
 
     @PostMapping(value = "/admin")
-    public String updateUser(@ModelAttribute User user , @RequestParam(value = "role") String[]roles) {
-        ArrayList<Role> roleArrayList = myUserDetailsService.getRoleCollectionToStringArray(roles);
+    public String updateUser(@ModelAttribute User user , @RequestParam(value = "role") ArrayList<Long> roles) {
+        Set<Role> roleArrayList = myUserDetailsService.getRoles(roles);
         roleRepository.saveAll(roleArrayList);
         user.setRoles(roleArrayList);
         user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
@@ -61,8 +65,8 @@ public class AdminController {
         return "admin";
     }
     @PostMapping("/user")
-    public RedirectView create(@ModelAttribute User user, @RequestParam(value = "role") String[]roles, BindingResult errors, Model model) {
-        ArrayList<Role> roleArrayList = myUserDetailsService.getRoleCollectionToStringArray(roles);
+    public RedirectView create(@ModelAttribute User user, @RequestParam(value = "role") ArrayList <Long> roles, BindingResult errors, Model model) {
+        Set<Role> roleArrayList = myUserDetailsService.getRoles(roles);
         roleRepository.saveAll(roleArrayList);
         user.setRoles(roleArrayList);
         user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
