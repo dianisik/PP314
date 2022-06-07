@@ -49,7 +49,7 @@ public class AdminController {
     @PostMapping(value = "/admin")
     public String updateUser(@ModelAttribute User user , @RequestParam(value = "role") ArrayList<Long> roles) {
         Set<Role> roleArrayList = myUserDetailsService.getRoles(roles);
-        roleRepository.saveAll(roleArrayList);
+        roleRepository.saveAllAndFlush(roleArrayList);
         user.setRoles(roleArrayList);
         user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
         userRepository.saveAndFlush(user);

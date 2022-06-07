@@ -15,19 +15,22 @@ import java.util.*;
 
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
-    private final static long ROLE_ADMIN = 0;
-    private final static long ROLE_USER = 1;
+    private final static long ROLE_ADMIN = 1;
+    private final static long ROLE_USER = 2;
 
     boolean alreadySetup = false;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public SetupDataLoader(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     @Transactional
@@ -36,11 +39,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         Iterable<User> users = userRepository.findAll();
         alreadySetup = users.iterator().hasNext(); //если пользователи уже есть, ничего делать не надо
 
-        Role adminRole = new Role (ROLE_ADMIN, "Администратор");
-        Role userRole = new Role (ROLE_USER, "Пользователь");
-        Set<Role> adminRoles = Collections.emptySet();
+        Role adminRole = new Role (ROLE_ADMIN, "ROLE_ADMIN");
+        Role userRole = new Role (ROLE_USER, "ROLE_USER");
+        Set<Role> adminRoles = new HashSet<>();
         adminRoles.add(adminRole);
-        Set<Role> userRoles = Collections.emptySet();
+        Set<Role> userRoles = new HashSet<>();
         userRoles.add(userRole);
         roleRepository.save(adminRole);
         roleRepository.save(userRole);

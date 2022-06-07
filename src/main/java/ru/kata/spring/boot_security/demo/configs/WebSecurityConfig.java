@@ -18,11 +18,13 @@ import ru.kata.spring.boot_security.demo.service.MyUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
+    private final MyUserDetailsService myUserDetailsService;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+    @Autowired
+
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, MyUserDetailsService myUserDetailsService) {
         this.successUserHandler = successUserHandler;
+        this.myUserDetailsService = myUserDetailsService;
     }
 
     @Override

@@ -39,18 +39,10 @@ public class MyUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         return userRepository.findByName(name);
 
-        /*User user = userRepository.findByName(name);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        Hibernate.initialize(user.getAuthorities());
-
-        return user;*/
-
         }
     public Set<Role> getRoles (ArrayList<Long> roles) {
         ArrayList<Role> roleArray = new ArrayList<>();
-        Set<Role> roleSet = Collections.emptySet();
+        Set<Role> roleSet = new HashSet<>();
         for (Long roleStr :
                 roles) {
             Optional<Role> roleOptional = roleRepository.findById(roleStr);
