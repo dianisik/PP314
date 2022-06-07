@@ -24,11 +24,14 @@ import java.util.*;
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
+    private final RoleRepository roleRepository;
     @Autowired
-    private RoleRepository roleRepository;
+    public MyUserDetailsService(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
     public User findByUserName(String userName){
         return userRepository.findByName(userName);    }
