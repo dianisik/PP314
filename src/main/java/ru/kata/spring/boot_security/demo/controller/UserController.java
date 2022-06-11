@@ -23,13 +23,6 @@ import java.util.Arrays;
 
 public class UserController {
 
-    //private final UserRepository userRepository;
-
-    //private final PasswordEncoder passwordEncoder;
-
-    //private final
-    //RoleRepository roleRepository;
-
     private final
     MyUserDetailsService myUserDetailsService;
 
@@ -45,7 +38,7 @@ public class UserController {
     public String goHome(Principal principal, Model model){
         User user = myUserDetailsService.findByUserName(principal.getName());
         model.addAttribute("user", user);
-        return "user-space";
+        return "users";
     }
 
 
