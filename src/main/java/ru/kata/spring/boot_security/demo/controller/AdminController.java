@@ -49,7 +49,7 @@ public class AdminController {
     @PostMapping(value = "/admin")
     public String updateUser(@ModelAttribute User user , @RequestParam(value = "role") ArrayList<Long> roles) {
         Set<Role> roleArrayList = myUserDetailsService.getRoles(roles);
-        roleRepository.saveAllAndFlush(roleArrayList);
+        //roleRepository.saveAllAndFlush(roleArrayList);
         user.setRoles(roleArrayList);
         user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
         userRepository.saveAndFlush(user);
@@ -65,9 +65,9 @@ public class AdminController {
         return "admin";
     }
     @PostMapping("/user")
-    public RedirectView create(@ModelAttribute User user, @RequestParam(value = "role") ArrayList <Long> roles, BindingResult errors, Model model) {
+    public RedirectView create(@ModelAttribute User user, @RequestParam(value = "role") ArrayList <Long> roles, Model model) {
         Set<Role> roleArrayList = myUserDetailsService.getRoles(roles);
-        roleRepository.saveAll(roleArrayList);
+        //roleRepository.saveAll(roleArrayList);
         user.setRoles(roleArrayList);
         user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
         userRepository.save(user);

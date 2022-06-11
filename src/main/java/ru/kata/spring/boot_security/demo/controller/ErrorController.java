@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.controller;
+/*package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -25,4 +25,4 @@ public class ErrorController {
         }
         return "error";
     }
-}
+}*/

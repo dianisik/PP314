@@ -23,21 +23,21 @@ import java.util.Arrays;
 
 public class UserController {
 
-    private final UserRepository userRepository;
+    //private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
+    //private final PasswordEncoder passwordEncoder;
 
-    final
-    RoleRepository roleRepository;
+    //private final
+    //RoleRepository roleRepository;
 
-    final
+    private final
     MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, MyUserDetailsService myUserDetailsService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
+    public UserController(MyUserDetailsService myUserDetailsService) {
+       //s.userRepository = userRepository;
+        //this.passwordEncoder = passwordEncoder;
+        //this.roleRepository = roleRepository;
         this.myUserDetailsService = myUserDetailsService;
     }
 
