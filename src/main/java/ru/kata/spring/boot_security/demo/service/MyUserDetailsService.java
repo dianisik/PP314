@@ -22,7 +22,7 @@ import java.util.*;
 
 @Service("userDetailsService")
 @Transactional
-public class MyUserDetailsService implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService, UserService {
 
     private final UserRepository userRepository;
 
@@ -44,15 +44,32 @@ public class MyUserDetailsService implements UserDetailsService {
 
         }
     public Set<Role> getRoles (ArrayList<Long> roles) {
-        ArrayList<Role> roleArray = new ArrayList<>();
-        Set<Role> roleSet = new HashSet<>();
-        for (Long roleStr :
-                roles) {
-            Optional<Role> roleOptional = roleRepository.findById(roleStr);
-            roleOptional.ifPresent(role -> {roleSet.add(role);});
 
-        }
-        return roleSet;
+        return roleRepository.findByIdIn(roles);
     }
 
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findUserById(long id) {
+        return userRepository.findUserById(id);
+    }
+
+    @Override
+    public void saveAndFlush(User user) {
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void deleteById(long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
 }

@@ -28,9 +28,6 @@ public class UserController {
 
     @Autowired
     public UserController(MyUserDetailsService myUserDetailsService) {
-       //s.userRepository = userRepository;
-        //this.passwordEncoder = passwordEncoder;
-        //this.roleRepository = roleRepository;
         this.myUserDetailsService = myUserDetailsService;
     }
 
