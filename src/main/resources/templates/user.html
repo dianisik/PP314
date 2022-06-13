@@ -69,7 +69,7 @@
                   <td th:text="${mainUser.getFirstName()}"></td>
                   <td th:text="${mainUser.getLastName()}"></td>
                   <td th:text="${mainUser.getAge()}"></td>
-                  <td th:text="${mainUser.getEmail()}"></td>
+                  <td th:text="${mainUser.getName()}"></td>
 
                   <td>
                     <li th:each="role: ${mainUser.getRoles()}" th:text="${role.getName()}"></li>

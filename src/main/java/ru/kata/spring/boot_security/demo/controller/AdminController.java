@@ -17,9 +17,9 @@ import java.util.Set;
 @Controller
 public class AdminController {
 
-     private final MyUserDetailsService myUserDetailsService;
+    private final MyUserDetailsService myUserDetailsService;
 
-     private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     AdminController(MyUserDetailsService myUserDetailsService, PasswordEncoder passwordEncoder) {
@@ -42,9 +42,11 @@ public class AdminController {
 
     @PostMapping(value = "/admin")
     public String updateUser(@ModelAttribute User user , @RequestParam(value = "role") ArrayList<Long> roles) {
+
         Set<Role> roleArrayList = myUserDetailsService.getRoles(roles);
         user.setRoles(roleArrayList);
         user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
+
         myUserDetailsService.saveAndFlush(user);
         return "redirect:/admin";
     }
@@ -70,7 +72,7 @@ public class AdminController {
         return new RedirectView("/admin");
     }
 
-    @GetMapping("admin/admin_info")
+    @GetMapping("/admin_info")
     public String goHome(Principal principal, Model model){
         User user = myUserDetailsService.findByUserName(principal.getName());
         model.addAttribute("mainUser", user);

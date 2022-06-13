@@ -44,7 +44,7 @@
             <div class="nav flex-column nav-pills pt-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" href="/admin" sec:authorize="hasRole('ROLE_ADMIN')"
                    aria-controls="v-pills-home" aria-selected="true">Admin</a>
-                <a class="nav-link" href="admin/admin_info" sec:authorize="(hasAnyRole('ROLE_USER','ROLE_ADMIN'))"
+                <a class="nav-link" href="/admin_info" sec:authorize="(hasAnyRole('ROLE_USER','ROLE_ADMIN'))"
                    role="tab"
                    aria-controls="v-pills-profile" aria-selected="false">User</a>
             </div>
@@ -89,7 +89,7 @@
                                         <td th:text="${user.firstName}"></td>
                                         <td th:text="${user.lastName}"></td>
                                         <td th:text="${user.age}"></td>
-                                        <td th:text="${user.email}"></td>
+                                        <td th:text="${user.name}"></td>
                                         <td>
                                             <li th:each="role: ${user.getRoles()}" th:text="${role.getName()}"></li>
                                         </td>
@@ -156,7 +156,7 @@
                                                                 <label for="email1"
                                                                        class="col-form-label"><b>Email:</b></label>
                                                                 <input type="email" class="form-control" id="email1"
-                                                                       th:value="${user.getEmail()}"
+                                                                       th:value="${user.getName()}"
                                                                        th:name="email">
                                                             </div>
                                                             <div class="form-group">
@@ -235,8 +235,8 @@
 
                                                             <div class="form-group">
                                                                 <label for="email2" class="col-form-label"><b>Email:</b></label>
-                                                                <input type="text" class="form-control" id="email2"
-                                                                       th:value="${user.email}"
+                                                                <input type="email" class="form-control" id="email2"
+                                                                       th:value="${user.name}"
                                                                        th:name="email" disabled/>
                                                             </div>
 
@@ -278,12 +278,12 @@
                             <form align="center" class="offset-md-4 col-md-3 mt-4 mb-4" th:align="center"
                                   th:action="@{admin/new}" th:object="${user}" method="POST">
 
-                                <label for="name3"><b>Name</b></label>
-                                <input th:name="name" th:type="text" class="form-control" id="name3"
+                                <label for="name3"><b>FIRSTNAME</b></label>
+                                <input th:name="firstName" th:type="text" class="form-control" id="name3"
                                        required/>
 
-                                <label for="surname3"><b>Surname</b></label>
-                                <input th:name="surname" th:type="text" class="form-control" id="surname3"
+                                <label for="surname3"><b>LASTNAME</b></label>
+                                <input th:name="lastName" th:type="text" class="form-control" id="surname3"
                                        required/>
 
                                 <label for="age3"><b>Age</b></label>
@@ -291,7 +291,7 @@
                                        required/>
 
                                 <label for="email3"><b>Email</b></label>
-                                <input th:name="email" th:type="email" class="form-control" id="email3"/>
+                                <input th:name="name" th:type="email" class="form-control" id="email3"/>
 
                                 <label for="password3"><b>Password</b></label>
                                 <input th:name="password" th:type="password" class="form-control" id="password3"

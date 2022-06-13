@@ -53,7 +53,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         admin.setFirstName("Admin");
         admin.setLastName("Admin");
         admin.setPassword(passwordEncoder.encode("admin"));
-        admin.setEmail("admin@server.com");
+//        admin.setEmail("admin@server.com");
         admin.setRoles(adminRoles);
         userRepository.save(admin);
 
@@ -62,7 +62,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         user.setFirstName("User");
         user.setLastName("User");
         user.setPassword(passwordEncoder.encode("user"));
-        user.setEmail("user@server.com");
+//        user.setEmail("user@server.com");
         user.setRoles(userRoles);
         userRepository.save(user);
         alreadySetup = true;

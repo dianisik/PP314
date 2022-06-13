@@ -14,10 +14,26 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
 
 
-    @Column(name="name", unique=true)
+    @Column(name="email", unique=true)
     private String name;
     private String firstName;
 
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getRolesView() {
+        StringBuilder sb = new StringBuilder();
+        for (Role role : roles) { sb.append(role.getName().substring(5));
+            sb.append(" ");}
+        return sb.toString();
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -28,7 +44,7 @@ public class User implements UserDetails {
         if (!Objects.equals(name, user.name)) return false;
         if (!Objects.equals(firstName, user.firstName)) return false;
         if (!Objects.equals(lastName, user.lastName)) return false;
-        if (!Objects.equals(email, user.email)) return false;
+//        if (!Objects.equals(email, user.email)) return false;
         if (!Objects.equals(password, user.password)) return false;
         if (!Objects.equals(roles, user.roles)) return false;
         return Objects.equals(id, user.id);
@@ -39,7 +55,7 @@ public class User implements UserDetails {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
+//        result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
         result = 31 * result + (id != null ? id.hashCode() : 0);
@@ -47,7 +63,7 @@ public class User implements UserDetails {
     }
 
     private String lastName;
-    private String email;
+//    private String email;
     private String password;
 
     @ManyToMany
@@ -83,13 +99,13 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
@@ -162,7 +178,7 @@ public class User implements UserDetails {
                 ", name='" + name + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
+//                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
