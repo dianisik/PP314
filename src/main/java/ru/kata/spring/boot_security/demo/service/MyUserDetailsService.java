@@ -38,11 +38,12 @@ public class MyUserDetailsService implements UserDetailsService, UserService {
 
     @Transactional
     @Override
+
     public UserDetails loadUserByUsername(String name)
             throws UsernameNotFoundException {
         return userRepository.findByName(name);
 
-        }
+    }
     public Set<Role> getRoles (ArrayList<Long> roles) {
 
         return roleRepository.findByIdIn(roles);

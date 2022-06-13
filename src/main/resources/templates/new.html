@@ -1,0 +1,136 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Admin page</title>
+</head>
+<body>
+
+<!-- navigation bar -->
+<nav class="navbar navbar-expand-xl navbar-dark text-white bg-dark">
+
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse show" id="navbarDark">
+            <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+                <span class="align-middle font-weight-bold mr-1" th:each="user:${mainUser}" th:text="${mainUser.getName()}"></span></b>
+                <span class="align-middle mr-1">with roles:</span>
+                <span class="align-middle"  th:each="user:${mainUser}" th:text="'with roles: '+ ${mainUser.getRolesView}">
+                    </span>
+            </ul>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-dark text-secondary">Logout</button>
+        </form>
+
+    </div>
+</nav>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="p-0 col-2">
+            <div class="nav flex-column nav-pills pt-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" href="/admin" sec:authorize="hasRole('ROLE_ADMIN')"
+                   aria-controls="v-pills-home" aria-selected="true">Admin</a>
+                <a class="nav-link" href="admin/admin_info" sec:authorize="(hasAnyRole('ROLE_USER','ROLE_ADMIN'))"
+                   role="tab"
+                   aria-controls="v-pills-profile" aria-selected="false">User</a>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <!--Заголовок страницы-->
+            <div class="page-header">
+                <h2>
+                    Admin panel
+                </h2>
+            </div>
+            <!--Панель навигации-->
+
+            <ul class="nav nav-tabs">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Users table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="admin/new">New user</a>
+                </li>
+
+            </ul>
+
+            <!--            Заголовок таблицы-->
+
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                <h4>Add new User</h4>
+                    </tr>
+                    </thead>
+
+                    <tr>
+                <div class="col-md bg-black border" align="center" >
+                    <form align="center" class="offset-md-4 col-md-3 mt-4 mb-4" th:align="center"
+                          th:action="@{/new}" th:object="${newUser}" method="POST">
+                        <div class="col-3">
+                            <div class="form-group">
+                        <label for="name3"><b>FIRSTNAME</b></label>
+                        <input th:name="firstName" th:type="text" class="form-control" id="name3"
+                               required/>
+
+                        <label for="surname3"><b>LASTNAME</b></label>
+                        <input th:name="lastName" th:type="text" class="form-control" id="surname3"
+                               required/>
+
+                        <label for="age3"><b>AGE</b></label>
+                        <input th:name="age" th:type="number" class="form-control" id="age3"
+                               required/>
+
+                        <label for="email3"><b>EMAIL</b></label>
+                        <input th:name="email" th:type="email" class="form-control" id="email3"/>
+
+                        <label for="password3"><b>PASSWORD</b></label>
+                        <input th:name="password" th:type="password" class="form-control" id="password3"
+                               required/>
+
+                        <label for="roles3"><b>ROLES</b></label>
+                        <select multiple class="form-control form-control-sm" id="roles3" name="role"
+                                size="2" required>
+                            <option value="1">ADMIN</option>
+                            <option value="2" selected>USER</option>
+                        </select>
+
+<!--                                <select size="3" name="role" id="roles" multiple="multiple">-->
+<!--                                    <option disabled>Roles:</option>-->
+<!--                                    <option value="1">ADMIN</option>-->
+<!--                                    <option selected value="2">USER</option>-->
+<!--                                </select>-->
+
+                        <br>
+                        <button th:type="submit" class="btn btn-success" value="Add new user">
+                            Add new user
+                        </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                    </tr>
+                </table>
+
+
+        </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

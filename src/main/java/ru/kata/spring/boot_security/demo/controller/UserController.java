@@ -1,25 +1,15 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.MyUserDetailsService;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @Controller
-@RequestMapping("/user")
 
 public class UserController {
 
@@ -31,11 +21,12 @@ public class UserController {
         this.myUserDetailsService = myUserDetailsService;
     }
 
-    @GetMapping
+    @GetMapping("/user")
     public String goHome(Principal principal, Model model){
         User user = myUserDetailsService.findByUserName(principal.getName());
-        model.addAttribute("user", user);
-        return "users";
+        model.addAttribute("mainUser", user);
+
+        return "user";
     }
 
 

@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.MyUserDetailsService;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -26,15 +27,17 @@ public class AdminController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping(value = "admin/users")
-    public String listUsers(Model model) {
+    @GetMapping(value = "/admin")
+    public String listUsers(Model model, Principal principal) {
         model.addAttribute("allUsers", myUserDetailsService.findAll());
-        return "users";
+        User user = myUserDetailsService.findByUserName(principal.getName());
+        model.addAttribute("mainUser",user);
+        return "admin";
     }
-    @GetMapping(value = "/edit/{id}")
+    @GetMapping(value = "/admin/{id}")
     public String editUser(@PathVariable long id, Model model) {
         model.addAttribute("user", myUserDetailsService.findUserById(id));
-        return "/edit";
+        return "redirect:/admin/";
     }
 
     @PostMapping(value = "/admin")
@@ -43,18 +46,22 @@ public class AdminController {
         user.setRoles(roleArrayList);
         user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль
         myUserDetailsService.saveAndFlush(user);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
-    @GetMapping(value = "/remove/{id}")
+    @PostMapping(value = "/admin/{id}")
     public String removeUser(@PathVariable long id) {
         myUserDetailsService.deleteById (id);
-        return "redirect:/admin/users";
+        return "redirect:/admin/";
     }
-    @GetMapping ("/admin")
-    public String newUser(){
-        return "admin";
+    @GetMapping ("/new")
+    public String newUser(Model model,Principal principal){
+        model.addAttribute("newUser",new User());
+        model.addAttribute("role",new ArrayList<Role>());
+        User user = myUserDetailsService.findByUserName(principal.getName());
+        model.addAttribute("mainUser",user);
+        return "new";
     }
-    @PostMapping("/user")
+    @PostMapping("/new")
     public RedirectView create(@ModelAttribute User user, @RequestParam(value = "role") ArrayList <Long> roles, Model model) {
         Set<Role> roleArrayList = myUserDetailsService.getRoles(roles);
         user.setRoles(roleArrayList);
@@ -63,4 +70,11 @@ public class AdminController {
         return new RedirectView("/admin");
     }
 
+    @GetMapping("admin/admin_info")
+    public String goHome(Principal principal, Model model){
+        User user = myUserDetailsService.findByUserName(principal.getName());
+        model.addAttribute("mainUser", user);
+
+        return "admin_info";
+    }
 }
