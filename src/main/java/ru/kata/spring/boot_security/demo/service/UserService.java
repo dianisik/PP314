@@ -13,4 +13,11 @@ public interface UserService {
     void save (User user);
 
 
+    User findUserByEmail(String name);
+
+    List<User> getAllUsers();
+
+    void saveOrUpdate(User user);
+
+    void delete(Long id);
 }

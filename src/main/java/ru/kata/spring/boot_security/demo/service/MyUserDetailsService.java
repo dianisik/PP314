@@ -73,4 +73,24 @@ public class MyUserDetailsService implements UserDetailsService, UserService {
     public void save(User user) {
         userRepository.save(user);
     }
+
+    @Override
+    public User findUserByEmail(String name) {
+        return null;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return null;
+    }
+
+    @Override
+    public void saveOrUpdate(User user) {
+
+    }
+
+    @Override
+    public void delete(Long id) {
+
+    }
 }
