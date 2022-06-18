@@ -81,7 +81,7 @@ public class MyUserDetailsService implements UserDetailsService, UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
